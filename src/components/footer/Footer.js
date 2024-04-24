@@ -29,7 +29,7 @@ const Footer = () => {
                     <div className={styles['pages']}>
                         <div className={styles['page-title']}>Development</div>
                         <div className={styles['pages-list']}>
-                            <a href={'https://github.com/skittlesaur/rabbitmart'} target={'_blank'} rel={'noreferrer'}>GitHub Repository</a>
+                           
                         </div>
                     </div>
                 </div>
