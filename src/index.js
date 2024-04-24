@@ -8,6 +8,7 @@ import authentication from "./reducers/authentication";
 import orders from "./reducers/orders";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import shipping from "./reducers/shipping";
+import { AuthProvider } from './pages/authentication/authContext.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const store = configureStore({
@@ -23,7 +24,9 @@ root.render(
     <GoogleOAuthProvider clientId="1035123183395-eahcvrk1bdk7p1ghf3rssi20qm5d542s.apps.googleusercontent.com">
     <React.StrictMode>
         <Provider store={store}>
-            <App/>
+            <AuthProvider>
+                <App/>
+            </AuthProvider>
         </Provider>
     </React.StrictMode>
     </GoogleOAuthProvider>,

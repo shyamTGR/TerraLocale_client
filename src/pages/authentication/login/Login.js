@@ -6,6 +6,7 @@ import Error from "../../../components/feedback/error/Error";
 import {authLogin} from "../../../actions/auth";
 import {useDispatch} from "react-redux";
 import Gsign from "../gsign";
+import { useAuth } from '../authContext';
 //import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 //import axios from 'axios';
 
@@ -14,43 +15,13 @@ const Login = () => {
     const navigate = useNavigate();
     //const logged, setLog = useState();
 
-    const [data, setData] = useState({
-        email: "",
-        password: ""
-    });
 
-    const [error, setError] = useState("");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { currentUser, login, logout } = useAuth();
 
-    const handleChange = (e) => {
-        setData({...data, [e.target.name]: e.target.value});
-    }
-    const onSuccess = () => {
-        navigate('/');
-    }
-    const handleLogin = () => {
-        const {email, password} = data;
-
-        if (!email)
-            return setError("Enter an email address");
-
-        if (!password)
-            return setError("Enter a password");
-
-        if (!validateEmail(email))
-            return setError("Enter a valid email address");
-
-        if (password.length < 6)
-            return setError("Your password must be at least 6 characters long.");
-
-        const onSuccess = () => {
-            navigate('/');
-        }
-
-        const onError = (e) => {
-            setError(e.message);
-        }
-
-        dispatch(authLogin(email, password, onSuccess, onError));
+    if(currentUser){
+        navigate("/");
     }
 
     const validateEmail = (email) => {
@@ -61,7 +32,42 @@ const Login = () => {
             );
     };
 
-    const form =
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            if(validateEmail(email)){
+
+            const response = await fetch('http://localhost:5000/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+            
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(data.token);
+                login(data.token);
+                navigate('/');
+            } else {
+                throw new Error(data.message || 'Unable to login');
+            }
+        }else{
+            alert("Enter Valid Email")
+        }
+        } catch (error) {
+            console.error('Login Error:', error);
+        }
+    };
+
+    const [error, setError] = useState("");
+
+
+   
+
+    return (
         <div className={styles['wrapper']}>
             {error && <Error error={error} setError={setError}/>}
             <div className={styles['header']}>
@@ -70,15 +76,14 @@ const Login = () => {
                 <div className={styles['login']}>New to Runners? <Link to={'/signup'}>Sign Up</Link></div>
             </div>
             <div className={styles['form']}>
-                <input onChange={(e) => handleChange(e)} name={'email'} value={data.email} placeholder={'Email'}
+                <input onChange={(e) => setEmail(e.target.value)} name={'email'} value={email} placeholder={'Email'}
                        type={'email'}/>
-                <input onChange={(e) => handleChange(e)} name={'password'} value={data.password}
+                <input onChange={(e) => setPassword(e.target.value)} name={'password'} value={password}
                        placeholder={'Password'} type={'password'}/>
-                <button onClick={onSuccess} className={'btn1'}>Login</button>
+                <button onClick={handleSubmit} className={'btn1'}>Login</button>
             </div>
-        </div>
+        </div>);
 
-    return <Authentication data={form}/>
 }
 
 export default Login;

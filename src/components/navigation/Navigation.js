@@ -8,8 +8,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {logout} from "../../actions/auth";
 //import OrderHistory from './pages/ohistory'
 import IframeDisplay from '../../components/iframe';
+import { useAuth } from '../../pages/authentication/authContext';
+
 const Navigation = ({cartCount}) => {
 
+    const { currentUser, login, logout:al } = useAuth();
     const [search, setSearch] = useState(SEARCH_HIDDEN);
     const [menuActive, setMenuActive] = useState(false);
     const [searchInput, setSearchInput] = useState("");
@@ -95,6 +98,9 @@ const Navigation = ({cartCount}) => {
                         handleLogout();
                         closeMenu();
                     }}>Logout</div>}
+                    {
+                        currentUser ? <button className={styles.logoutBtn} onClick={al}>Log Out</button> : <></>
+                    }
                 </nav>
             </div>
             
