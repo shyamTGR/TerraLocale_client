@@ -14,8 +14,7 @@ function IframeDisplay() {
 
     return (
         <div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <button onClick={handleButtonClick} style={{ backgroundColor: 'transparent', border: 'none', color:'white' }}>Shopping Assistant</button></div>
+        
             {showIframe && (
                 <div className="iframe-overlay">
                     <div className="iframe-wrapper">
