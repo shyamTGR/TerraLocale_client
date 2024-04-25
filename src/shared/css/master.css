@@ -2,9 +2,9 @@
 
 :root {
     --PRIMARY: #030a01;
-    --PRIMARY_ALPHA_50: rgba(0, 20, 0, 0.50);
+    --PRIMARY_ALPHA_50: rgba(255, 255, 255, 0.50);
     --RABBIT_YELLOW: #ffffff;
-    --RABBIT_YELLOW_ALPHA_50: rgba(255, 255, 2255, 0.5);
+    --RABBIT_YELLOW_ALPHA_50: rgba(255, 255, 255, 0.5);
 
     --NEUTRAL_0: #f6f6f6;
     --NEUTRAL_1: #eaeaea;
